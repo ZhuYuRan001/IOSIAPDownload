@@ -752,7 +752,12 @@
         background-color: white;
         padding: 20px;
         border-radius: 10px;
-        transition: all 1s ease-in-out;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      #trustDialog[open] {
+        opacity: 1;
       }
 
       #trustDialog h2 {
@@ -809,6 +814,12 @@
         background: rgba(0, 0, 0, 0.5); /* 半透明黑色遮罩 */
         /* 还可以添加模糊效果 */
         backdrop-filter: blur(3px);
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      #trustDialog[open]::backdrop {
+        opacity: 1;
       }
 
       @media (prefers-color-scheme: dark) {
