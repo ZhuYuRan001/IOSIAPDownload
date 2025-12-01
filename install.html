@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>SERIS</title>
+    <style>
+      :root {
+        --system-blue: #007aff;
+        --system-gray: #8e8e93;
+        --system-gray2: #aeaeb2;
+        --system-gray3: #c7c7cc;
+        --system-gray4: #d1d1d6;
+        --system-gray5: #e5e5ea;
+        --system-gray6: #f2f2f7;
+        --bg-color: #ffffff;
+        --text-color: #1c1c1e;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",
+          "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.4;
+        padding-bottom: 40px;
+      }
+
+      .container {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Banner */
+      .app-banner {
+        width: 100%;
+        height: 220px;
+        background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+        border-radius: 0 0 20px 20px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .app-banner::after {
+        content: "Feature Graphic";
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-size: 12px;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 4px 8px;
+        border-radius: 4px;
+        color: white;
+      }
+
+      /* App Header Section */
+      .app-header {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 30px;
+        margin-top: 20px;
+      }
+
+      .app-icon {
+        width: 118px;
+        height: 118px;
+        background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+        border-radius: 26px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: var(--system-gray);
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        position: relative;
+        transition: transform 0.2s;
+      }
+
+      .app-icon:active {
+        transform: scale(0.95);
+        opacity: 0.8;
+      }
+
+      .app-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      
+      .app-icon::after {
+        content: none;
+      }
+
+      .app-info {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .app-name {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 4px;
+        letter-spacing: 0.3px;
+        line-height: 1.2;
+      }
+
+      .app-subtitle {
+        font-size: 15px;
+        color: var(--system-gray);
+        margin-bottom: 14px;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: auto;
+      }
+
+      .get-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .get-button {
+        background-color: var(--system-blue);
+        color: white;
+        border: none;
+        border-radius: 15px;
+        padding: 6px 24px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        text-transform: uppercase;
+        min-width: 76px;
+        transition: transform 0.1s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .get-button:active {
+        transform: scale(0.96);
+        opacity: 0.8;
+      }
+
+      .in-app-purchase {
+        font-size: 9px;
+        color: var(--system-gray2);
+        margin-top: 6px;
+        font-weight: 500;
+      }
+
+      /* Loading State for Button */
+      .get-button.loading {
+        background-color: white;
+        position: relative;
+        border: 2px solid var(--system-gray4);
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        min-width: 28px;
+        color: transparent;
+        border-top-color: var(--system-blue);
+        border-right-color: var(--system-blue);
+        animation: spin 1s linear infinite;
+      }
+
+      .get-button.open {
+        background-color: var(--system-gray5);
+        color: var(--system-blue);
+        border-radius: 15px;
+        border: none;
+        width: auto;
+        height: auto;
+        padding: 6px 24px;
+        animation: none;
+        pointer-events: none;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .share-icon {
+        width: 24px;
+        height: 24px;
+        color: var(--system-blue);
+        cursor: pointer;
+        padding: 2px;
+        border-radius: 50%;
+        transition: background-color 0.2s;
+      }
+
+      .share-icon:active {
+        background-color: var(--system-gray6);
+      }
+
+      /* Ratings Bar */
+      .ratings-overview {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        padding: 15px 0;
+        border-top: 1px solid var(--system-gray5);
+        border-bottom: 1px solid var(--system-gray5);
+        margin-bottom: 20px;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .ratings-overview::-webkit-scrollbar {
+        display: none;
+      }
+
+      .rating-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 95px;
+        flex: 1;
+        position: relative;
+        cursor: pointer;
+        transition: opacity 0.2s;
+      }
+
+      .rating-item:active {
+        opacity: 0.5;
+      }
+
+      .rating-item:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        right: -10px;
+        top: 10%;
+        height: 80%;
+        width: 1px;
+        background-color: var(--system-gray5);
+      }
+
+      .rating-title {
+        font-size: 11px;
+        color: var(--system-gray2);
+        font-weight: 600;
+        margin-bottom: 4px;
+        text-align: center;
+      }
+
+      .rating-value {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--text-color);
+        margin-bottom: 2px;
+        font-family: "SF Pro Display", -apple-system, sans-serif;
+        text-align: center;
+      }
+
+      .rating-highlight {
+        color: var(--text-color);
+      }
+
+      .stars {
+        font-size: 12px;
+        color: var(--text-color);
+        letter-spacing: -1px;
+        text-align: center;
+      }
+
+      .rating-caption {
+        font-size: 12px;
+        color: var(--system-gray2);
+        text-align: center;
+      }
+
+      /* Awards */
+      .awards-section {
+        background-color: var(--system-gray6);
+        border-radius: 16px;
+        padding: 16px;
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .awards-section:active {
+        background-color: var(--system-gray5);
+      }
+
+      .award-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--system-blue);
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .award-content {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .award-title {
+        font-size: 17px;
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+
+      .award-subtitle {
+        font-size: 13px;
+        color: var(--system-gray);
+      }
+
+      /* Whats New */
+      .section-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        margin-top: 30px;
+      }
+
+      .version-history {
+        margin-bottom: 30px;
+        cursor: pointer;
+        padding: 5px 0;
+      }
+
+      .version-history:active {
+        opacity: 0.6;
+      }
+
+      .version-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        align-items: baseline;
+      }
+
+      .version-num {
+        font-size: 15px;
+        color: var(--system-gray);
+      }
+
+      .version-date {
+        font-size: 15px;
+        color: var(--system-gray);
+      }
+
+      .version-notes {
+        font-size: 15px;
+        line-height: 1.5;
+        color: var(--text-color);
+      }
+
+      /* Screenshots */
+      .screenshots-container {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-left: 20px;
+        padding-right: 20px;
+        scroll-snap-type: x mandatory;
+        scroll-padding-left: 20px;
+      }
+      .screenshots-container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .screenshot {
+        width: 230px;
+        height: 460px;
+        background-color: #f0f0f0;
+        border-radius: 32px;
+        flex-shrink: 0;
+        border: 1px solid var(--system-gray5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--system-gray);
+        font-weight: 500;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s;
+        cursor: pointer;
+        scroll-snap-align: start;
+      }
+
+      .screenshot:active {
+        transform: scale(0.98);
+      }
+
+      .screenshot::before {
+        content: "预览";
+        opacity: 0.3;
+        transform: rotate(-45deg);
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      /* Description */
+      .description {
+        margin-bottom: 30px;
+        position: relative;
+      }
+
+      .description-content {
+        font-size: 15px;
+        line-height: 1.6;
+        color: var(--text-color);
+        max-height: 85px;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      .description-content.expanded {
+        max-height: none;
+      }
+
+      .read-more-btn {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: white;
+        color: var(--system-blue);
+        border: none;
+        font-size: 15px;
+        padding: 0 0 0 10px;
+        cursor: pointer;
+        box-shadow: -10px 0 10px 0 rgba(255, 255, 255, 1);
+      }
+
+      .read-more-btn:active {
+        opacity: 0.6;
+      }
+
+      .description-content.expanded + .read-more-btn {
+        display: none;
+      }
+
+      /* Ratings & Reviews */
+      .reviews-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .see-all {
+        color: var(--system-blue);
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .see-all:active {
+        opacity: 0.6;
+      }
+
+      .big-rating {
+        font-size: 60px;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -2px;
+      }
+
+      .rating-breakdown {
+        margin-bottom: 20px;
+      }
+
+      .reviews-scroll-container {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        padding-bottom: 20px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-left: 20px;
+        padding-right: 20px;
+        scroll-snap-type: x mandatory;
+        scroll-padding-left: 20px;
+      }
+      .reviews-scroll-container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .review-card {
+        background-color: var(--system-gray6);
+        border-radius: 20px;
+        padding: 20px;
+        width: calc(100vw - 80px);
+        max-width: 340px;
+        flex-shrink: 0;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        scroll-snap-align: start;
+      }
+
+      .review-card:active {
+        background-color: var(--system-gray5);
+      }
+
+      .review-top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 6px;
+      }
+
+      .review-title {
+        font-weight: 700;
+        font-size: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
+      }
+
+      .review-date {
+        color: var(--system-gray);
+        font-size: 14px;
+      }
+
+      .review-stars {
+        color: #ff9500;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      .review-body {
+        font-size: 15px;
+        line-height: 1.4;
+        color: var(--text-color);
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .info-list {
+        margin-top: 40px;
+        border-top: 1px solid var(--system-gray5);
+      }
+
+      .info-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0;
+        border-bottom: 1px solid var(--system-gray5);
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      .info-item:active {
+        background-color: var(--system-gray6);
+      }
+
+      .info-label {
+        color: var(--system-gray);
+      }
+
+      .info-value {
+        color: var(--text-color);
+        text-align: right;
+        max-width: 60%;
+      }
+
+      /* Interactive Components */
+
+      /* Share Sheet Mock */
+      .share-sheet {
+        position: fixed;
+        bottom: -100%;
+        left: 0;
+        width: 100%;
+        background: white;
+        border-radius: 16px 16px 0 0;
+        padding: 20px;
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+        transition: bottom 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        z-index: 100;
+      }
+
+      .share-sheet.active {
+        bottom: 0;
+      }
+
+      .share-sheet-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+
+      .share-options {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+      }
+
+      .share-option {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        min-width: 60px;
+        font-size: 12px;
+      }
+
+      .share-icon-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        z-index: 90;
+      }
+
+      .overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* Lightbox */
+      .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s;
+        background: rgba(0, 0, 0, 0.9);
+      }
+
+      .lightbox.active {
+        pointer-events: auto;
+        opacity: 1;
+      }
+
+      .lightbox-img {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 20px;
+        transform: scale(0.8);
+        transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .lightbox.active .lightbox-img {
+        transform: scale(1);
+      }
+
+      .close-lightbox {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: white;
+        background: rgba(255, 255, 255, 0.2);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg-color: #000000;
+          --text-color: #ffffff;
+          --system-gray: #98989d;
+          --system-gray2: #aeaeb2;
+          --system-gray3: #48484a;
+          --system-gray4: #3a3a3c;
+          --system-gray5: #2c2c2e;
+          --system-gray6: #1c1c1e;
+        }
+
+        .app-banner {
+          background: linear-gradient(
+            120deg,
+            #0f2027 0%,
+            #203a43 50%,
+            #2c5364 100%
+          );
+        }
+
+        .app-icon {
+          border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .read-more-btn {
+          background: var(--bg-color);
+          box-shadow: -10px 0 10px 0 var(--bg-color);
+        }
+
+        .share-sheet {
+          background: var(--system-gray6);
+        }
+
+        .share-icon-circle {
+          background: var(--system-gray5);
+        }
+
+        .get-button.loading {
+          background-color: var(--system-gray6);
+        }
+
+        .screenshot {
+          background-color: var(--system-gray6) !important;
+          border-color: var(--system-gray5);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .app-header {
+          align-items: flex-start;
+        }
+
+        .container {
+          padding: 0;
+        }
+
+        .app-banner {
+          border-radius: 0;
+        }
+
+        .awards-section {
+          margin-left: 20px;
+          margin-right: 20px;
+        }
+
+        .app-info,
+        .app-header,
+        .ratings-overview,
+        .section-title,
+        .version-history,
+        .description,
+        .reviews-header,
+        .info-list,
+        .rating-breakdown {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+
+        .screenshots-container {
+          padding-left: 20px;
+        }
+
+        .reviews-scroll-container {
+          padding-left: 20px;
+        }
+
+        .app-icon {
+          margin-left: 0;
+        }
+
+        .screenshot {
+          width: 220px;
+          height: 440px;
+        }
+
+        .review-card {
+          width: calc(100vw - 80px);
+          max-width: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Banner -->
+      <div class="app-banner">
+        <!-- Placeholder Banner -->
+      </div>
+
+      <!-- App Header -->
+      <div class="app-header">
+        <div class="app-icon">
+          <img src="i object-fit: cover;mage/logo.png" alt="SERIS Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 26px;" />
+        </div>
+        <div class="app-info">
+          <h1 class="app-name">SERIS</h1>
+          <p class="app-subtitle">您的每日情绪追踪助手</p>
+          <div class="header-actions">
+            <div class="get-container">
+              <button class="get-button" id="getButton" onclick="handleGet()">
+                获取
+              </button>
+              <span class="in-app-purchase">App 内购买</span>
+            </div>
+            <svg
+              class="share-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              onclick="toggleShareSheet()"
+            >
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+              <polyline points="16 6 12 2 8 6"></polyline>
+              <line x1="12" y1="2" x2="12" y2="15"></line>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ratings Bar -->
+      <div class="ratings-overview">
+        <div class="rating-item">
+          <div class="rating-title">4.9 星</div>
+          <div class="rating-value rating-highlight">4.9</div>
+          <div class="stars" style="color: var(--system-gray)">★★★★★</div>
+        </div>
+        <div class="rating-item">
+          <div class="rating-title">奖项</div>
+          <div
+            class="rating-value rating-highlight"
+            style="
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 30px;
+              gap: 6px;
+            "
+          >
+            <!-- Left Wreath -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="10"
+              height="20"
+              viewBox="0 0 34 120"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M43.092 104.881c-2.835-.238-6.354.561-8.753 2.035-1.006.54-1.131 1.474-.301 2.293 2.222 1.994 5.607 3.479 8.452 3.717 2.98.374 6.551-.55 8.898-2.346.809-.581.871-1.401.114-2.106-2.097-1.973-5.493-3.395-8.41-3.593zm10.229-16.469c-1.536 2.399-2.46 5.919-2.325 8.722.176 2.948 1.536 6.395 3.447 8.513.653.727 1.462.727 2.054-.052 1.9-2.284 2.938-5.855 2.626-8.887-.187-2.834-1.599-6.178-3.561-8.421-.716-.892-1.598-.83-2.241.125zm-23.999 3.261c-2.689-.986-6.344-1.059-9.095-.249-1.048.29-1.338 1.161-.809 2.157 1.609 2.492 4.506 4.777 7.216 5.752 2.741 1.111 6.448 1.122 9.261-.041.882-.353 1.121-1.12.591-1.992-1.557-2.471-4.402-4.703-7.164-5.627zm14.03-13.292c-2.097 1.869-3.883 5.025-4.433 7.797-.623 2.929-.197 6.573 1.101 9.085.415.934 1.234 1.059 2.043.519 2.336-1.723 4.246-4.88 4.745-7.912.561-2.834.062-6.468-1.236-9.126-.415-1.017-1.338-1.193-2.22-.363zm-34.578-5.63c.395 2.856 2.119 6.189 4.164 8.234 2.046 2.149 5.42 3.623 8.482 3.696.996.062 1.473-.581 1.349-1.577-.488-2.969-2.222-6.177-4.268-8.088-2.086-1.92-5.346-3.519-8.191-3.852-1.162-.125-1.712.467-1.536 1.587zm27.994-4.152c-2.73.862-5.626 3.021-7.278 5.337-1.734 2.284-2.782 5.752-2.658 8.774.063.965.747 1.473 1.702 1.286 2.959-.685 6.032-2.783 7.527-5.306 1.661-2.481 2.71-6.001 2.533-8.846 0-1.183-.705-1.66-1.826-1.245zm-8.171-11.475c-2.326 1.848-4.184 4.994-4.807 7.85-.125.933.353 1.628 1.286 1.628 3.021.125 6.531-1.173 8.68-3.156 2.211-1.9 4.132-5.067 4.765-7.922.177-1.1-.415-1.753-1.473-1.753-2.948.249-6.333 1.557-8.451 3.353zm-19.75-6.366c-.322 2.865.488 6.447 1.983 8.971 1.485 2.658 4.371 4.942 7.195 5.689.934.291 1.639-.124 1.753-1.12.322-2.824-.477-6.406-2.035-8.95-1.557-2.43-4.34-4.766-6.966-5.752-1.058-.467-1.816-.062-1.93 1.162zm22.408-10.02c-2.783.935-5.679 3.178-7.226 5.69-.478.82-.239 1.639.643 2.044 2.772 1.111 6.478 1.111 9.25-.063 2.856-1.069 5.753-3.364 7.164-5.825.581-.933.28-1.753-.767-2.105-2.772-.8-6.406-.727-9.064.259zM14.87 27.924c-1.298 2.679-1.734 6.334-1.174 9.157.488 3.001 2.399 6.095 4.808 7.829.757.591 1.576.363 2.043-.467 1.308-2.555 1.682-6.188 1.049-9.064-.613-2.845-2.399-6.001-4.444-7.922-.83-.654-1.764-.477-2.282.467zm25.263-1.277c-2.918.582-6.064 2.389-7.891 4.641-.581.747-.415 1.566.353 2.044 2.564 1.547 6.249 2.034 9.167 1.235 2.866-.623 6.023-2.481 7.871-4.652.746-.871.529-1.763-.467-2.23-2.596-1.163-6.188-1.588-9.033-1.038zM25.69 11.662c-1.661 2.471-2.648 6.053-2.461 8.888.062 2.959 1.537 6.302 3.686 8.472.757.705 1.587.602 2.127-.176 1.598-2.503 2.574-6.023 2.325-8.888-.187-2.793-1.547-6.136-3.343-8.41-.768-.83-1.691-.768-2.334.114zm25.2-4.953c-2.845.447-6.063 2.119-8.088 4.143-2.086 2.035-3.696 5.368-4.018 8.223-.114.986.415 1.525 1.411 1.474 2.98-.146 6.313-1.704 8.327-3.977 1.972-1.994 3.571-5.316 4.007-8.224.125-1.161-.456-1.815-1.639-1.639z"
+              ></path>
+            </svg>
+            <span
+              style="
+                font-size: 10px;
+                font-weight: 600;
+                white-space: nowrap;
+                line-height: 1.2;
+                text-align: center;
+              "
+              >Editors'<br />Choice</span
+            >
+            <!-- Right Wreath -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="10"
+              height="20"
+              viewBox="34 0 34 120"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M24.816 104.881c-2.917.198-6.261 1.62-8.41 3.593-.757.705-.695 1.525.114 2.106 2.347 1.796 5.918 2.72 8.898 2.346 2.845-.238 6.23-1.723 8.452-3.717.871-.819.746-1.753-.301-2.293-2.399-1.474-5.918-2.273-8.753-2.035zM14.587 88.412c-.643-.955-1.525-1.017-2.241-.125-1.962 2.243-3.374 5.587-3.561 8.421-.312 3.032.727 6.603 2.626 8.887.592.779 1.401.779 2.054.052 1.911-2.118 3.271-5.565 3.437-8.513.145-2.803-.779-6.323-2.315-8.722zm23.999 3.261c-2.71.924-5.607 3.156-7.164 5.627-.529.872-.291 1.639.591 1.992 2.813 1.163 6.52 1.152 9.261.041 2.71-.975 5.596-3.26 7.206-5.752.529-.996.29-1.867-.799-2.157-2.751-.81-6.406-.737-9.095.249zm-14.03-13.292c-.882-.83-1.754-.654-2.22.363-1.298 2.658-1.797 6.292-1.236 9.126.499 3.032 2.409 6.189 4.745 7.912.809.54 1.628.415 2.043-.519 1.288-2.512 1.713-6.156 1.09-9.085-.55-2.772-2.325-5.928-4.422-7.797zm34.619-5.63c.176-1.12-.426-1.712-1.577-1.587-2.845.333-6.105 1.932-8.14 3.852-2.097 1.911-3.831 5.119-4.319 8.088-.124.996.405 1.639 1.349 1.577 3.062-.073 6.426-1.547 8.471-3.696 2.098-2.045 3.769-5.378 4.216-8.234zM31.14 68.599c-1.121-.415-1.826.062-1.826 1.245-.176 2.845.872 6.365 2.533 8.846 1.547 2.523 4.569 4.621 7.528 5.306.954.187 1.628-.321 1.69-1.286.125-3.022-.924-6.49-2.647-8.774-1.662-2.316-4.548-4.475-7.278-5.337zm8.171-11.475c-2.118-1.796-5.503-3.104-8.451-3.353-1.058 0-1.65.653-1.473 1.753.633 2.855 2.554 6.022 4.765 7.922 2.149 1.983 5.659 3.281 8.68 3.156.923 0 1.452-.695 1.276-1.628-.572-2.856-2.482-6.002-4.797-7.85zm19.791-6.366c-.114-1.224-.912-1.629-1.971-1.162-2.626.986-5.357 3.322-6.914 5.752-1.558 2.544-2.409 6.126-2.087 8.95.114.996.819 1.411 1.753 1.12 2.824-.747 5.699-3.031 7.184-5.689 1.547-2.524 2.357-6.106 2.035-8.971zm-22.449-10.02c-2.658-.986-6.291-1.059-9.064-.259-1.047.352-1.348 1.172-.767 2.105 1.463 2.461 4.308 4.756 7.164 5.825 2.772 1.174 6.478 1.174 9.25.063.872-.405 1.162-1.224.633-2.044-1.547-2.512-4.433-4.755-7.216-5.69zm16.375-12.814c-.508-.944-1.442-1.121-2.272-.467-2.045 1.921-3.831 5.077-4.444 7.922-.633 2.876-.208 6.509 1.101 9.064.415.83 1.234 1.058 1.992.467 2.408-1.734 4.308-4.828 4.848-7.829.561-2.823.073-6.478-1.225-9.157zm-25.253-1.277c-2.845-.55-6.437-.125-9.033 1.038-.996.467-1.213 1.359-.467 2.23 1.9 2.171 5.005 4.029 7.871 4.652 2.918.799 6.603.312 9.167-1.235.809-.478.923-1.297.342-2.044-1.816-2.252-4.962-4.059-7.88-4.641zm14.444-14.985c-.644-.882-1.567-.944-2.283-.114-1.848 2.274-3.208 5.617-3.395 8.41-.249 2.865.727 6.385 2.326 8.888.539.778 1.369.881 2.126.176 2.139-2.17 3.613-5.513 3.675-8.472.187-2.835-.799-6.417-2.449-8.888zM17.018 6.709c-1.131-.176-1.764.478-1.639 1.639.436 2.908 2.035 6.23 4.007 8.224 2.014 2.273 5.347 3.831 8.327 3.977.996.051 1.514-.488 1.4-1.474-.322-2.855-1.931-6.188-4.007-8.223-2.025-2.024-5.243-3.696-8.088-4.143z"
+              ></path>
+            </svg>
+          </div>
+          <div class="rating-caption" style="font-size: 10px">Apps</div>
+        </div>
+        <div class="rating-item">
+          <div class="rating-title">年龄</div>
+          <div class="rating-value rating-highlight">4+</div>
+          <div class="rating-caption">岁</div>
+        </div>
+        <div class="rating-item">
+          <div class="rating-title">排行榜</div>
+          <div class="rating-value rating-highlight">#3</div>
+          <div class="rating-caption">健康与健身</div>
+        </div>
+        <div class="rating-item">
+          <div class="rating-title">开发者</div>
+          <div
+            class="rating-value"
+            style="font-size: 12px; margin-top: 8px; text-align: center"
+          >
+            MindEase Tech
+          </div>
+          <div class="rating-caption"></div>
+        </div>
+        <div class="rating-item">
+          <div class="rating-title">语言</div>
+          <div class="rating-value" style="font-size: 14px; margin-top: 6px">
+            中+EN
+          </div>
+          <div class="rating-caption"></div>
+        </div>
+      </div>
+
+      <!-- Removed separate awards-section from here -->
+
+      <!-- What's New -->
+      <h2 class="section-title">新功能</h2>
+      <div class="version-history">
+        <div class="version-header">
+          <span class="version-num">版本 1.0.0</span>
+          <span class="version-date">2天前</span>
+        </div>
+        <p class="version-notes">
+          欢迎使用 MindEase Journal！<br />
+          - 通过我们直观的界面轻松追踪每日情绪。<br />
+          - 可视化您的情绪变化趋势。<br />
+          - 获取针对当前心情的个性化建议。<br />
+          - 安全私密地存储您的回忆和想法。
+        </p>
+      </div>
+
+      <!-- Preview -->
+      <h2 class="section-title">预览</h2>
+      <div class="screenshots-container">
+        <div
+          class="screenshot"
+          style="background-color: #e3f2fd"
+          onclick="openLightbox(this)"
+        >
+          首页
+        </div>
+        <div
+          class="screenshot"
+          style="background-color: #f3e5f5"
+          onclick="openLightbox(this)"
+        >
+          情绪记录
+        </div>
+        <div
+          class="screenshot"
+          style="background-color: #e8f5e9"
+          onclick="openLightbox(this)"
+        >
+          月度趋势
+        </div>
+        <div
+          class="screenshot"
+          style="background-color: #fff3e0"
+          onclick="openLightbox(this)"
+        >
+          心情建议
+        </div>
+        <div
+          class="screenshot"
+          style="background-color: #ffebee"
+          onclick="openLightbox(this)"
+        >
+          历史记录
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="description">
+        <div class="description-content" id="descContent">
+          <p>
+            SERIS
+            是一款创新的潮玩收藏应用。发现、收集和交易您喜爱的潮流玩具，与全球潮玩爱好者建立联系，分享您的收藏乐趣。
+          </p>
+          <br />
+          <p><strong>主要功能：</strong></p>
+          <ul>
+            <li>🎨 <strong>潮玩发现：</strong> 浏览最新最热的潮流玩具系列。</li>
+            <li>
+              📦
+              <strong>收藏管理：</strong> 轻松管理和展示您的珍贵收藏。
+            </li>
+            <li>
+              🔄 <strong>交易市场：</strong> 与其他玩家安全地交换心仪的潮玩。
+            </li>
+            <li>
+              👥
+              <strong>社区互动：</strong> 加入潮玩爱好者社区，分享您的收藏故事。
+            </li>
+            <li>
+              🔔 <strong>新品提醒：</strong> 第一时间获取限量款发售通知。
+            </li>
+          </ul>
+          <br />
+          <p>
+            立即加入 SERIS 社区，开启您的潮玩收藏之旅！无论您是资深玩家还是新手，SERIS 都将为您带来极致的收藏体验。
+          </p>
+        </div>
+        <button
+          class="read-more-btn"
+          id="readMoreBtn"
+          onclick="toggleDescription()"
+        >
+          更多
+        </button>
+      </div>
+
+      <!-- Ratings & Reviews -->
+      <div class="reviews-header">
+        <h2 class="section-title" style="margin: 0">评分与评论</h2>
+        <span class="see-all">查看全部</span>
+      </div>
+
+      <div
+        class="rating-breakdown"
+        style="display: flex; gap: 20px; margin-bottom: 20px"
+      >
+        <div>
+          <div class="big-rating">4.9</div>
+          <div
+            style="font-weight: 700; color: var(--system-gray); font-size: 14px"
+          >
+            满分 5 分
+          </div>
+        </div>
+        <div
+          style="
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 10px;
+            color: var(--system-gray);
+          "
+        >
+          <!-- 5 Stars -->
+          <div style="display: flex; align-items: center; margin-bottom: 2px">
+            <div
+              style="
+                width: 50px;
+                display: flex;
+                justify-content: flex-end;
+                margin-right: 8px;
+              "
+            >
+              ★★★★★
+            </div>
+            <div
+              style="
+                height: 4px;
+                background: var(--system-gray5);
+                flex-grow: 1;
+                border-radius: 2px;
+                overflow: hidden;
+              "
+            >
+              <div
+                style="height: 100%; width: 90%; background: var(--system-gray)"
+              ></div>
+            </div>
+          </div>
+          <!-- 4 Stars -->
+          <div style="display: flex; align-items: center; margin-bottom: 2px">
+            <div
+              style="
+                width: 50px;
+                display: flex;
+                justify-content: flex-end;
+                margin-right: 8px;
+              "
+            >
+              ★★★★
+            </div>
+            <div
+              style="
+                height: 4px;
+                background: var(--system-gray5);
+                flex-grow: 1;
+                border-radius: 2px;
+                overflow: hidden;
+              "
+            >
+              <div
+                style="height: 100%; width: 8%; background: var(--system-gray)"
+              ></div>
+            </div>
+          </div>
+          <!-- 3 Stars -->
+          <div style="display: flex; align-items: center; margin-bottom: 2px">
+            <div
+              style="
+                width: 50px;
+                display: flex;
+                justify-content: flex-end;
+                margin-right: 8px;
+              "
+            >
+              ★★★
+            </div>
+            <div
+              style="
+                height: 4px;
+                background: var(--system-gray5);
+                flex-grow: 1;
+                border-radius: 2px;
+                overflow: hidden;
+              "
+            >
+              <div
+                style="height: 100%; width: 1%; background: var(--system-gray)"
+              ></div>
+            </div>
+          </div>
+          <!-- 2 Stars -->
+          <div style="display: flex; align-items: center; margin-bottom: 2px">
+            <div
+              style="
+                width: 50px;
+                display: flex;
+                justify-content: flex-end;
+                margin-right: 8px;
+              "
+            >
+              ★★
+            </div>
+            <div
+              style="
+                height: 4px;
+                background: var(--system-gray5);
+                flex-grow: 1;
+                border-radius: 2px;
+                overflow: hidden;
+              "
+            >
+              <div
+                style="height: 100%; width: 0%; background: var(--system-gray)"
+              ></div>
+            </div>
+          </div>
+          <!-- 1 Star -->
+          <div style="display: flex; align-items: center">
+            <div
+              style="
+                width: 50px;
+                display: flex;
+                justify-content: flex-end;
+                margin-right: 8px;
+              "
+            >
+              ★
+            </div>
+            <div
+              style="
+                height: 4px;
+                background: var(--system-gray5);
+                flex-grow: 1;
+                border-radius: 2px;
+                overflow: hidden;
+              "
+            >
+              <div
+                style="height: 100%; width: 1%; background: var(--system-gray)"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mock Reviews Horizontal Scroll -->
+      <div class="reviews-scroll-container">
+        <!-- Editors' Choice Card (First Item) -->
+        <div
+          class="review-card"
+          style="
+            background-color: var(--system-gray6);
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 24px;
+          "
+        >
+          <div style="display: flex; align-items: center; margin-bottom: 12px">
+            <!-- Left Wreath -->
+            <svg
+              width="20"
+              height="40"
+              viewBox="0 0 34 120"
+              fill="currentColor"
+              style="color: var(--system-gray)"
+            >
+              <path
+                d="M43.092 104.881c-2.835-.238-6.354.561-8.753 2.035-1.006.54-1.131 1.474-.301 2.293 2.222 1.994 5.607 3.479 8.452 3.717 2.98.374 6.551-.55 8.898-2.346.809-.581.871-1.401.114-2.106-2.097-1.973-5.493-3.395-8.41-3.593zm10.229-16.469c-1.536 2.399-2.46 5.919-2.325 8.722.176 2.948 1.536 6.395 3.447 8.513.653.727 1.462.727 2.054-.052 1.9-2.284 2.938-5.855 2.626-8.887-.187-2.834-1.599-6.178-3.561-8.421-.716-.892-1.598-.83-2.241.125zm-23.999 3.261c-2.689-.986-6.344-1.059-9.095-.249-1.048.29-1.338 1.161-.809 2.157 1.609 2.492 4.506 4.777 7.216 5.752 2.741 1.111 6.448 1.122 9.261-.041.882-.353 1.121-1.12.591-1.992-1.557-2.471-4.402-4.703-7.164-5.627zm14.03-13.292c-2.097 1.869-3.883 5.025-4.433 7.797-.623 2.929-.197 6.573 1.101 9.085.415.934 1.234 1.059 2.043.519 2.336-1.723 4.246-4.88 4.745-7.912.561-2.834.062-6.468-1.236-9.126-.415-1.017-1.338-1.193-2.22-.363zm-34.578-5.63c.395 2.856 2.119 6.189 4.164 8.234 2.046 2.149 5.42 3.623 8.482 3.696.996.062 1.473-.581 1.349-1.577-.488-2.969-2.222-6.177-4.268-8.088-2.086-1.92-5.346-3.519-8.191-3.852-1.162-.125-1.712.467-1.536 1.587zm27.994-4.152c-2.73.862-5.626 3.021-7.278 5.337-1.734 2.284-2.782 5.752-2.658 8.774.063.965.747 1.473 1.702 1.286 2.959-.685 6.032-2.783 7.527-5.306 1.661-2.481 2.71-6.001 2.533-8.846 0-1.183-.705-1.66-1.826-1.245zm-8.171-11.475c-2.326 1.848-4.184 4.994-4.807 7.85-.125.933.353 1.628 1.286 1.628 3.021.125 6.531-1.173 8.68-3.156 2.211-1.9 4.132-5.067 4.765-7.922.177-1.1-.415-1.753-1.473-1.753-2.948.249-6.333 1.557-8.451 3.353zm-19.75-6.366c-.322 2.865.488 6.447 1.983 8.971 1.485 2.658 4.371 4.942 7.195 5.689.934.291 1.639-.124 1.753-1.12.322-2.824-.477-6.406-2.035-8.95-1.557-2.43-4.34-4.766-6.966-5.752-1.058-.467-1.816-.062-1.93 1.162zm22.408-10.02c-2.783.935-5.679 3.178-7.226 5.69-.478.82-.239 1.639.643 2.044 2.772 1.111 6.478 1.111 9.25-.063 2.856-1.069 5.753-3.364 7.164-5.825.581-.933.28-1.753-.767-2.105-2.772-.8-6.406-.727-9.064.259zM14.87 27.924c-1.298 2.679-1.734 6.334-1.174 9.157.488 3.001 2.399 6.095 4.808 7.829.757.591 1.576.363 2.043-.467 1.308-2.555 1.682-6.188 1.049-9.064-.613-2.845-2.399-6.001-4.444-7.922-.83-.654-1.764-.477-2.282.467zm25.263-1.277c-2.918.582-6.064 2.389-7.891 4.641-.581.747-.415 1.566.353 2.044 2.564 1.547 6.249 2.034 9.167 1.235 2.866-.623 6.023-2.481 7.871-4.652.746-.871.529-1.763-.467-2.23-2.596-1.163-6.188-1.588-9.033-1.038zM25.69 11.662c-1.661 2.471-2.648 6.053-2.461 8.888.062 2.959 1.537 6.302 3.686 8.472.757.705 1.587.602 2.127-.176 1.598-2.503 2.574-6.023 2.325-8.888-.187-2.793-1.547-6.136-3.343-8.41-.768-.83-1.691-.768-2.334.114zm25.2-4.953c-2.845.447-6.063 2.119-8.088 4.143-2.086 2.035-3.696 5.368-4.018 8.223-.114.986.415 1.525 1.411 1.474 2.98-.146 6.313-1.704 8.327-3.977 1.972-1.994 3.571-5.316 4.007-8.224.125-1.161-.456-1.815-1.639-1.639z"
+              ></path>
+            </svg>
+
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: 0 8px;
+              "
+            >
+              <span
+                style="
+                  font-size: 10px;
+                  color: var(--system-gray2);
+                  font-weight: 600;
+                  letter-spacing: 0.5px;
+                  margin-bottom: 2px;
+                "
+                >APPS</span
+              >
+              <span
+                style="
+                  font-weight: 700;
+                  font-size: 18px;
+                  color: var(--text-color);
+                  line-height: 1;
+                "
+                >Editors' Choice</span
+              >
+            </div>
+
+            <!-- Right Wreath -->
+            <svg
+              width="20"
+              height="40"
+              viewBox="34 0 34 120"
+              fill="currentColor"
+              style="color: var(--system-gray)"
+            >
+              <path
+                d="M24.816 104.881c-2.917.198-6.261 1.62-8.41 3.593-.757.705-.695 1.525.114 2.106 2.347 1.796 5.918 2.72 8.898 2.346 2.845-.238 6.23-1.723 8.452-3.717.871-.819.746-1.753-.301-2.293-2.399-1.474-5.918-2.273-8.753-2.035zM14.587 88.412c-.643-.955-1.525-1.017-2.241-.125-1.962 2.243-3.374 5.587-3.561 8.421-.312 3.032.727 6.603 2.626 8.887.592.779 1.401.779 2.054.052 1.911-2.118 3.271-5.565 3.437-8.513.145-2.803-.779-6.323-2.315-8.722zm23.999 3.261c-2.71.924-5.607 3.156-7.164 5.627-.529.872-.291 1.639.591 1.992 2.813 1.163 6.52 1.152 9.261.041 2.71-.975 5.596-3.26 7.206-5.752.529-.996.29-1.867-.799-2.157-2.751-.81-6.406-.737-9.095.249zm-14.03-13.292c-.882-.83-1.754-.654-2.22.363-1.298 2.658-1.797 6.292-1.236 9.126.499 3.032 2.409 6.189 4.745 7.912.809.54 1.628.415 2.043-.519 1.288-2.512 1.713-6.156 1.09-9.085-.55-2.772-2.325-5.928-4.422-7.797zm34.619-5.63c.176-1.12-.426-1.712-1.577-1.587-2.845.333-6.105 1.932-8.14 3.852-2.097 1.911-3.831 5.119-4.319 8.088-.124.996.405 1.639 1.349 1.577 3.062-.073 6.426-1.547 8.471-3.696 2.098-2.045 3.769-5.378 4.216-8.234zM31.14 68.599c-1.121-.415-1.826.062-1.826 1.245-.176 2.845.872 6.365 2.533 8.846 1.547 2.523 4.569 4.621 7.528 5.306.954.187 1.628-.321 1.69-1.286.125-3.022-.924-6.49-2.647-8.774-1.662-2.316-4.548-4.475-7.278-5.337zm8.171-11.475c-2.118-1.796-5.503-3.104-8.451-3.353-1.058 0-1.65.653-1.473 1.753.633 2.855 2.554 6.022 4.765 7.922 2.149 1.983 5.659 3.281 8.68 3.156.923 0 1.452-.695 1.276-1.628-.572-2.856-2.482-6.002-4.797-7.85zm19.791-6.366c-.114-1.224-.912-1.629-1.971-1.162-2.626.986-5.357 3.322-6.914 5.752-1.558 2.544-2.409 6.126-2.087 8.95.114.996.819 1.411 1.753 1.12 2.824-.747 5.699-3.031 7.184-5.689 1.547-2.524 2.357-6.106 2.035-8.971zm-22.449-10.02c-2.658-.986-6.291-1.059-9.064-.259-1.047.352-1.348 1.172-.767 2.105 1.463 2.461 4.308 4.756 7.164 5.825 2.772 1.174 6.478 1.174 9.25.063.872-.405 1.162-1.224.633-2.044-1.547-2.512-4.433-4.755-7.216-5.69zm16.375-12.814c-.508-.944-1.442-1.121-2.272-.467-2.045 1.921-3.831 5.077-4.444 7.922-.633 2.876-.208 6.509 1.101 9.064.415.83 1.234 1.058 1.992.467 2.408-1.734 4.308-4.828 4.848-7.829.561-2.823.073-6.478-1.225-9.157zm-25.253-1.277c-2.845-.55-6.437-.125-9.033 1.038-.996.467-1.213 1.359-.467 2.23 1.9 2.171 5.005 4.029 7.871 4.652 2.918.799 6.603.312 9.167-1.235.809-.478.923-1.297.342-2.044-1.816-2.252-4.962-4.059-7.88-4.641zm14.444-14.985c-.644-.882-1.567-.944-2.283-.114-1.848 2.274-3.208 5.617-3.395 8.41-.249 2.865.727 6.385 2.326 8.888.539.778 1.369.881 2.126.176 2.139-2.17 3.613-5.513 3.675-8.472.187-2.835-.799-6.417-2.449-8.888zM17.018 6.709c-1.131-.176-1.764.478-1.639 1.639.436 2.908 2.035 6.23 4.007 8.224 2.014 2.273 5.347 3.831 8.327 3.977.996.051 1.514-.488 1.4-1.474-.322-2.855-1.931-6.188-4.007-8.223-2.025-2.024-5.243-3.696-8.088-4.143z"
+              ></path>
+            </svg>
+          </div>
+          <p
+            style="
+              font-size: 14px;
+              line-height: 1.4;
+              color: var(--text-color);
+              margin-bottom: 0;
+            "
+          >
+            如果您看到朋友们在记录心情，那他们可能正在使用...
+            <span style="color: var(--system-blue)">更多</span>
+          </p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-top">
+            <span class="review-title">正是我需要的！</span>
+            <span class="review-date">昨天</span>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-body">
+            我试过很多情绪追踪应用，但这个绝对是最简单有效的。图表非常精美，帮我更好地了解自己的情绪模式。强烈推荐给任何想改善心理健康的人。
+          </p>
+          <div
+            style="margin-top: 10px; font-size: 12px; color: var(--system-gray)"
+          >
+            用户1234
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-top">
+            <span class="review-title">设计精美，体验极佳</span>
+            <span class="review-date">3天前</span>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-body">
+            界面非常干净、令人平静。这让写日记成了一种享受而不是负担。我特别喜欢每日建议功能，它似乎总是知道我此刻需要听到什么。
+          </p>
+          <div
+            style="margin-top: 10px; font-size: 12px; color: var(--system-gray)"
+          >
+            设计爱好者99
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-top">
+            <span class="review-title">非常有帮助</span>
+            <span class="review-date">5天前</span>
+          </div>
+          <div class="review-stars">★★★★☆</div>
+          <p class="review-body">
+            追踪情绪的好工具。月度趋势视图太棒了。希望未来能增加深色模式的小组件，除此之外一切都很完美。
+          </p>
+          <div
+            style="margin-top: 10px; font-size: 12px; color: var(--system-gray)"
+          >
+            快乐用户_01
+          </div>
+        </div>
+      </div>
+
+      <!-- App Info List -->
+      <div class="info-list">
+        <div class="info-item">
+          <span class="info-label">供应商</span>
+          <span class="info-value">MindEase Technology Co., Ltd.</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">大小</span>
+          <span class="info-value">45.2 MB</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">类別</span>
+          <span class="info-value">健康与健身</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">兼容性</span>
+          <span class="info-value">iPhone 需要 iOS 15.0 或更高版本。</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">语言</span>
+          <span class="info-value">简体中文, 英语</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">年龄分级</span>
+          <span class="info-value">4+</span>
+        </div>
+        <div class="info-item" style="border-bottom: none">
+          <span class="info-label">版权</span>
+          <span class="info-value">© 2025 MindEase Tech</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Elements -->
+    <div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+    <!-- Share Sheet -->
+    <div class="share-sheet" id="shareSheet">
+      <div class="share-sheet-header">
+        <span>分享 SERIS</span>
+        <span
+          style="color: var(--system-blue); cursor: pointer"
+          onclick="toggleShareSheet()"
+          >关闭</span
+        >
+      </div>
+      <div class="share-options">
+        <div class="share-option">
+          <div
+            class="share-icon-circle"
+            style="background: #4cd964; color: white"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+              ></path>
+            </svg>
+          </div>
+          <span>微信</span>
+        </div>
+        <div class="share-option">
+          <div
+            class="share-icon-circle"
+            style="background: black; color: white"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+              <polyline points="16 6 12 2 8 6"></polyline>
+              <line x1="12" y1="2" x2="12" y2="15"></line>
+            </svg>
+          </div>
+          <span>复制链接</span>
+        </div>
+        <div class="share-option">
+          <div
+            class="share-icon-circle"
+            style="background: #007aff; color: white"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M2 12h20"></path>
+              <path
+                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+              ></path>
+            </svg>
+          </div>
+          <span>更多</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+      <div class="close-lightbox">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </div>
+      <div
+        class="screenshot lightbox-img"
+        id="lightboxContent"
+        style="width: 300px; height: 600px; background-color: white"
+      >
+        <!-- Content populated by JS -->
+      </div>
+    </div>
+
+    <script>
+      // Read More Toggle
+      function toggleDescription() {
+        const content = document.getElementById("descContent");
+        const btn = document.getElementById("readMoreBtn");
+
+        content.classList.add("expanded");
+        // Button hides via CSS sibling selector, but we can also do it explicitly if needed
+        // btn.style.display = 'none';
+      }
+
+      // Get Button Animation
+      function handleGet() {
+        const btn = document.getElementById("getButton");
+
+        if (btn.classList.contains("open")) {
+          // App Open Logic (mock)
+          window.location.href = "#";
+          return;
+        }
+
+        // Change to loading
+        btn.innerHTML = "";
+        btn.classList.add("loading");
+
+        // Simulate download time
+        setTimeout(() => {
+          btn.classList.remove("loading");
+          btn.classList.add("open");
+          btn.innerHTML = "打开";
+        }, 2000);
+      }
+
+      // Share Sheet
+      function toggleShareSheet() {
+        const sheet = document.getElementById("shareSheet");
+        const overlay = document.getElementById("overlay");
+
+        if (sheet.classList.contains("active")) {
+          sheet.classList.remove("active");
+          overlay.classList.remove("active");
+        } else {
+          sheet.classList.add("active");
+          overlay.classList.add("active");
+        }
+      }
+
+      // Lightbox
+      function openLightbox(el) {
+        const lightbox = document.getElementById("lightbox");
+        const content = document.getElementById("lightboxContent");
+
+        // Copy styles/content from clicked element
+        content.style.backgroundColor = el.style.backgroundColor;
+        content.innerText = el.innerText;
+
+        lightbox.classList.add("active");
+      }
+
+      function closeLightbox() {
+        document.getElementById("lightbox").classList.remove("active");
+      }
+
+      function closeAll() {
+        document.getElementById("shareSheet").classList.remove("active");
+        document.getElementById("overlay").classList.remove("active");
+      }
+    </script>
+  </body>
+</html>
