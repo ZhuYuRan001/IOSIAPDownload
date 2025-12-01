@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>items</key>
+    <array>
+        <dict>
+            <key>assets</key>
+            <array>
+                <dict>
+                    <key>kind</key>
+                    <string>software-package</string>
+                    <key>url</key>
+                    <string>https://hmxz.qluzfkgo.com/signed/agxvmmkov9/5aa9b40b0e0fc3da24d1b24201849e98.ipa?sign=e884c6089cb19306b5355c37fb553c98&t=1764069263&filename=%E6%83%8A%E5%96%9C%E6%BD%AE%E7%8E%A9.ipa</string>
+                </dict>
+                <dict>
+                    <key>kind</key>
+                    <string>display-image</string>
+                    <key>url</key>
+                    <string>https://your-username.github.io/your-repo-name/image/icon-57.png</string>
+                </dict>
+            </array>
+            <key>metadata</key>
+            <dict>
+                <key>bundle-identifier</key>
+                <string>com.yourcompany.yourapp</string>
+                <key>bundle-version</key>
+                <string>1.0.0</string>
+                <key>kind</key>
+                <string>software</string>
+                <key>title</key>
+                <string>Your Enterprise App</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>
