@@ -13,23 +13,17 @@
                     <key>url</key>
                     <string>https://zhuyuran001.github.io/IOSIAPDownload/app/惊喜潮玩.ipa</string>
                 </dict>
-                <dict>
-                    <key>kind</key>
-                    <string>display-image</string>
-                    <key>url</key>
-                    <string>https://zhuyuran001.github.io/IOSIAPDownload/image/logo-login.png</string>
-                </dict>
             </array>
             <key>metadata</key>
             <dict>
                 <key>bundle-identifier</key>
                 <string>com.zixu.jxcwios</string>
                 <key>bundle-version</key>
-                <string>1.0.0</string>
+                <string>6.0.2</string>
                 <key>kind</key>
                 <string>software</string>
                 <key>title</key>
-                <string>Your Enterprise App</string>
+                <string>Seris</string>
             </dict>
         </dict>
     </array>
