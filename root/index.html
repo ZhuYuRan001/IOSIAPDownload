@@ -43,8 +43,18 @@
     <div class="container">
         <h1>企业应用下载</h1>
         <p>点击下面的按钮下载安装应用</p>
-        
-        <div id="download-section"></div>
+       
+        <div id="download-section">
+            <a href="itms-services://?action=download-manifest&url=https://zhuyuran001.github.io/IOSIAPDownload/manifest.plist" class="download-btn">
+                📱 立即安装应用
+            </a>
+            <p class="note">
+                如果无法安装，请检查：<br>
+                1. 是否在 Safari 中打开<br>
+                2. 网络连接是否正常<br>
+                3. 设备是否信任企业证书
+            </p>
+        </div>
         
         <div class="note">
             <p>⚠️ 请在 Safari 浏览器中打开</p>
@@ -52,38 +62,5 @@
             <p>🏢 仅限企业内部使用</p>
         </div>
     </div>
-
-    <script>
-        // 检测设备类型
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        const downloadSection = document.getElementById('download-section');
-        
-        if (isIOS) {
-            // 替换为你的实际 GitHub Pages 地址
-            const manifestUrl = 'https://github.com/ZhuYuRan001/IOSIAPDownload/blob/main/manifest.plist';
-            const installUrl = `itms-services://?action=download-manifest&url=${manifestUrl}`;
-            
-            downloadSection.innerHTML = `
-                <a href="${installUrl}" class="download-btn">
-                    📱 立即安装应用
-                </a>
-                <p class="note">
-                    如果无法安装，请检查：<br>
-                    1. 是否在 Safari 中打开<br>
-                    2. 网络连接是否正常<br>
-                    3. 设备是否信任企业证书
-                </p>
-            `;
-        } else {
-            downloadSection.innerHTML = `
-                <p style="color: #FF3B30;">
-                    ❌ 请在 iOS 设备上打开此链接
-                </p>
-                <p class="note">
-                    当前检测到的设备不支持安装
-                </p>
-            `;
-        }
-    </script>
 </body>
 </html>
